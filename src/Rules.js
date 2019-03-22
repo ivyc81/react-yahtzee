@@ -73,7 +73,8 @@ class SumDistro extends Rule {
 
 class FullHouse extends Rule {
   evalRoll = (dice) => {
-    return this.freq(dice).length === 2 && (this.freq(dice).some(c => c === 2 || c === 3)) ? this.score : 0;
+    // if 2 or 3 exists ...   f.contain(2)
+    return this.freq(dice).length === 2 && (this.freq(dice).some(c => c === 2)) ? this.score : 0;
     }
   }
 
