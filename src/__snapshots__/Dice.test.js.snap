@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly  1`] = `
+<Dice
+  dice={
+    Array [
+      1,
+      2,
+      3,
+      4,
+      5,
+    ]
+  }
+  locked={
+    Array [
+      false,
+      false,
+      false,
+      true,
+      true,
+    ]
+  }
+>
+  <div
+    className="Dice"
+  >
+    <Die
+      idx={0}
+      key="0"
+      locked={false}
+      val={1}
+    >
+      <button
+        className="Die"
+        onClick={[Function]}
+      >
+        1
+      </button>
+    </Die>
+    <Die
+      idx={1}
+      key="1"
+      locked={false}
+      val={2}
+    >
+      <button
+        className="Die"
+        onClick={[Function]}
+      >
+        2
+      </button>
+    </Die>
+    <Die
+      idx={2}
+      key="2"
+      locked={false}
+      val={3}
+    >
+      <button
+        className="Die"
+        onClick={[Function]}
+      >
+        3
+      </button>
+    </Die>
+    <Die
+      idx={3}
+      key="3"
+      locked={true}
+      val={4}
+    >
+      <button
+        className="Die Die-locked"
+        onClick={[Function]}
+      >
+        4
+      </button>
+    </Die>
+    <Die
+      idx={4}
+      key="4"
+      locked={true}
+      val={5}
+    >
+      <button
+        className="Die Die-locked"
+        onClick={[Function]}
+      >
+        5
+      </button>
+    </Die>
+  </div>
+</Dice>
+`;

@@ -19,16 +19,25 @@ class Rule {
     return dice.reduce((prev, curr) => prev + curr);
   }
 
+  /**
+   *   frequencies of dice values when a role is made
+   * returns an array with frequency of die val appearane [2,3] or [1,2,2] (doesnt show values)
+   * freq([2,2,1,3,1]) = > [2,2,1]
+   * freq([2,2,2,2,2]) = > [5]
+   */
+
   freq(dice) {
-    // frequencies of dice values
     const freqs = new Map();
     for (let d of dice)
       freqs.set(d, (freqs.get(d) || 0) + 1);
     return Array.from(freqs.values());
   }
 
+  /**
+   * # times val appears in dice
+   * count([2,3,1,2,2], 2) => 3
+   */ 
   count(dice, val) {
-    // # times val appears in dice
     return dice.filter(d => d === val).length;
   }
 }
@@ -48,6 +57,9 @@ class TotalOneNumber extends Rule {
 /** Given a required # of same dice, return sum of all dice. 
  * 
  * Used for rules like "sum of all dice when there is a 3-of-kind"
+ * freq([2,2,1]) 
+ * count 3 
+ * => 0 
 */
 
 class SumDistro extends Rule {
@@ -59,15 +71,27 @@ class SumDistro extends Rule {
 
 /** Check if full house (3-of-kind and 2-of-kind) */
 
-class FullHouse {
-  // TODO
-}
+class FullHouse extends Rule {
+  evalRoll = (dice) => {
+    return this.freq(dice).length === 2 && (this.freq(dice).some(c => c === 2 || c === 3)) ? this.score : 0;
+    }
+  }
+  // if freq.lenght === 2
+// (freq.find(2) && freq.find(3)) ? this.score : 0 
 
 /** Check for small straights. */
 
-class SmallStraight {
-  // TODO
-}
+class SmallStraight extends Rule {
+  
+  evalRoll = (dice) => {
+    const d = new Set(dice);
+    // a small straight must contain 234 and (1 or 5) or 345 and (2 or 6)
+    const is234 = d.has(2) && d.has(3) && d.has(4) && ( d.has(1) || d.has(5) );
+    const is345 = d.has(3) && d.has(4) && d.has(5) && ( d.has(2) || d.has(6) );
+
+    return d.size >= 4 && (is234 || is345) ? this.score : 0;
+    } 
+  }
 
 /** Check for large straights. */
 
@@ -102,10 +126,10 @@ const threeOfKind = new SumDistro({ count: 3 });
 const fourOfKind = new SumDistro({ count: 4 });
 
 // full house scores as flat 25
-const fullHouse = "TODO";
+const fullHouse = new FullHouse({ score: 25 });
 
 // small/large straights score as 30/40
-const smallStraight = "TODO";
+const smallStraight = new SmallStraight({ score: 30 });
 const largeStraight = new LargeStraight({ score: 40 });
 
 // yahtzee scores as 50
