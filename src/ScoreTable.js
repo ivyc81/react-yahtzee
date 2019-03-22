@@ -6,13 +6,29 @@ import { ones, twos, threes, fours, fives, sixes, threeOfKind, fourOfKind, fullH
 
 class ScoreTable extends Component {
 
+  calculateUpperTotal(scores) {
+    const score = [scores.ones, scores.twos, scores.threes, scores.fours, scores.fives, scores.sixes];
+    return score.reduce((total, ele) => ele? total+= ele: total, 0);
+  }
+
+  calculateLowerTotal(scores) {
+    const score = [scores.threeOfKind, scores.fourOfKind, scores.fullHouse, scores.smallStraight, scores.largeStraight, scores.yahtzee, scores.chance];
+
+    return score.reduce((total, ele) => ele? total+= ele: total, 0);
+  }
+
+  calculateGameTotal(scores) {
+    return this.calculateLowerTotal(scores) + this.calculateUpperTotal(scores);
+  }
+
   render() {
     const { scores, doScore } = this.props;
-
     return (
       <div className="ScoreTable">
+      <h1> current score: { this.calculateGameTotal(scores) }</h1>
         <section className="ScoreTable-section">
           <h2>Upper</h2>
+          <div> total score: { this.calculateUpperTotal(scores) }</div>
           <table cellSpacing="0">
             <tbody>
               <RuleRow name="Ones" score={scores.ones} doScore={evt => doScore("ones", ones.evalRoll)} />
@@ -26,6 +42,7 @@ class ScoreTable extends Component {
         </section>
         <section className="ScoreTable-section ScoreTable-section-lower">
           <h2>Lower</h2>
+          <div> total score: { this.calculateLowerTotal(scores) }</div>
           <table cellSpacing="0">
             <tbody>
               <RuleRow name="Three of Kind" score={scores.threeOfKind} doScore={evt => doScore("threeOfKind", threeOfKind.evalRoll)} />

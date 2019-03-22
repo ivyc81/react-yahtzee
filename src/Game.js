@@ -10,9 +10,9 @@ class Game extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dice: Array.from({ length: NUM_DICE }),
+      dice: Array.from({ length: NUM_DICE }, x => Math.ceil(Math.random() * 6) ),
       locked: Array(NUM_DICE).fill(false),
-      rollsLeft: NUM_ROLLS,
+      rollsLeft: NUM_ROLLS - 1,
       scores: {
         ones: undefined,
         twos: undefined,
