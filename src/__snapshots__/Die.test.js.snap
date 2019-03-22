@@ -3,21 +3,27 @@
 exports[`renders correctly locked 1`] = `
 <Die
   locked={true}
+  val={2}
 >
   <button
     className="Die Die-locked"
     onClick={[Function]}
-  />
+  >
+    2
+  </button>
 </Die>
 `;
 
 exports[`renders correctly unlocked 1`] = `
 <Die
   locked={false}
+  val={2}
 >
   <button
     className="Die"
     onClick={[Function]}
-  />
+  >
+    2
+  </button>
 </Die>
 `;

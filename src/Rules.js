@@ -76,8 +76,6 @@ class FullHouse extends Rule {
     return this.freq(dice).length === 2 && (this.freq(dice).some(c => c === 2 || c === 3)) ? this.score : 0;
     }
   }
-  // if freq.lenght === 2
-// (freq.find(2) && freq.find(3)) ? this.score : 0
 
 /** Check for small straights. */
 

@@ -8,13 +8,13 @@ it('renders without crashing', () => {
 });
 
 it('renders correctly unlocked', () => {
-    const wrapper = mount(<Die locked={ false }/>);
+    const wrapper = mount(<Die val={2} locked={ false }/>);
     const serialized = toJson(wrapper);
     expect(serialized).toMatchSnapshot();
 });
 
 it('renders correctly locked', () => {
-    const wrapper = mount(<Die locked={ true }/>);
+    const wrapper = mount(<Die val={2} locked={ true }/>);
     const serialized = toJson(wrapper);
     expect(serialized).toMatchSnapshot();
 });
