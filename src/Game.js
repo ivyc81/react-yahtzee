@@ -35,6 +35,8 @@ class Game extends Component {
 
   roll(evt) {
     // roll dice whose indexes are in reroll
+    // if have no rolls left locks all dice
+    // minus one from rolls left
     this.setState(st => ({
       dice: st.dice.map(
         (d, i) => st.locked[i] ? d : Math.ceil(Math.random() * 6)),
@@ -56,6 +58,9 @@ class Game extends Component {
 
   doScore(rulename, ruleFn) {
     // evaluate this ruleFn with the dice and score this rulename
+    // reset rolls left
+    // unlock all dice
+    // reroll
     this.setState(st => ({
       scores: { ...st.scores, [rulename]: ruleFn(this.state.dice) },
       rollsLeft: NUM_ROLLS,

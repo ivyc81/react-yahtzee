@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<RuleRow
+  name="test"
+  score={0}
+>
+  <tr
+    className="RuleRow RuleRow-active"
+  >
+    <td
+      className="RuleRow-name"
+    >
+      test
+    </td>
+    <td
+      className="RuleRow-score"
+    >
+      0
+    </td>
+  </tr>
+</RuleRow>
+`;
