@@ -1,9 +1,9 @@
-/** Rule for Yahtzee scoring. 
- * 
+/** Rule for Yahtzee scoring.
+ *
  * This is an "abstract class"; the real rules are subclasses of these.
  * This stores all parameters passed into it as properties on the instance
  * (to simplify child classes so they don't need constructors of their own).
- * 
+ *
  * It contains useful functions for summing, counting values, and counting
  * frequencies of dice. These are used by subclassed rules.
  */
@@ -36,15 +36,15 @@ class Rule {
   /**
    * # times val appears in dice
    * count([2,3,1,2,2], 2) => 3
-   */ 
+   */
   count(dice, val) {
     return dice.filter(d => d === val).length;
   }
 }
 
 
-/** Given a sought-for val, return sum of dice of that val. 
- * 
+/** Given a sought-for val, return sum of dice of that val.
+ *
  * Used for rules like "sum of all ones"
 */
 
@@ -54,12 +54,12 @@ class TotalOneNumber extends Rule {
   }
 }
 
-/** Given a required # of same dice, return sum of all dice. 
- * 
+/** Given a required # of same dice, return sum of all dice.
+ *
  * Used for rules like "sum of all dice when there is a 3-of-kind"
- * freq([2,2,1]) 
- * count 3 
- * => 0 
+ * freq([2,2,1])
+ * count 3
+ * => 0
 */
 
 class SumDistro extends Rule {
@@ -77,20 +77,21 @@ class FullHouse extends Rule {
     }
   }
   // if freq.lenght === 2
-// (freq.find(2) && freq.find(3)) ? this.score : 0 
+// (freq.find(2) && freq.find(3)) ? this.score : 0
 
 /** Check for small straights. */
 
 class SmallStraight extends Rule {
-  
+
   evalRoll = (dice) => {
     const d = new Set(dice);
-    // a small straight must contain 234 and (1 or 5) or 345 and (2 or 6)
-    const is234 = d.has(2) && d.has(3) && d.has(4) && ( d.has(1) || d.has(5) );
-    const is345 = d.has(3) && d.has(4) && d.has(5) && ( d.has(2) || d.has(6) );
+    // a small straight must contain 1234 or 2345 or 3456
+    const is1234 = d.has(1) && d.has(2) && d.has(3) && d.has(4);
+    const is2345 = d.has(2) && d.has(3) && d.has(4) && d.has(5);
+    const is3456 = d.has(3) && d.has(4) && d.has(5) && d.has(6);
 
-    return d.size >= 4 && (is234 || is345) ? this.score : 0;
-    } 
+    return d.size >= 4 && (is1234 || is2345 || is3456) ? this.score : 0;
+    }
   }
 
 /** Check for large straights. */
