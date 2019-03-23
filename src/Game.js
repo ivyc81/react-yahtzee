@@ -4,7 +4,6 @@ import ScoreTable from './ScoreTable';
 import './Game.css';
 
 const NUM_DICE = 5;
-
 const START_SCORES = {
           ones: undefined,
           twos: undefined,
@@ -20,7 +19,6 @@ const START_SCORES = {
           yahtzee: undefined,
           chance: undefined
           }
-// const START_LOCK = Array(NUM_DICE).fill(false);
 
 class Game extends Component {
 
