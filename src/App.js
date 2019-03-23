@@ -7,7 +7,7 @@ class App extends Component {
     return (
       <div className="App">
         <h1>Yahtzee!</h1>
-        <Game />
+        <Game num_rolls={3}/>
       </div>
     );
   }

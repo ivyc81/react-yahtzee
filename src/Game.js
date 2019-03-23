@@ -4,7 +4,7 @@ import ScoreTable from './ScoreTable';
 import './Game.css';
 
 const NUM_DICE = 5;
-const NUM_ROLLS = 3;
+
 const START_SCORES = {
           ones: undefined,
           twos: undefined,
@@ -20,22 +20,36 @@ const START_SCORES = {
           yahtzee: undefined,
           chance: undefined
           }
-const START_DICE = Array.from({ length: NUM_DICE }, x => Math.ceil(Math.random() * 6) );
-const START_LOCK = Array(NUM_DICE).fill(false);
+// const START_LOCK = Array(NUM_DICE).fill(false);
 
 class Game extends Component {
+
+  static defaultProps = {
+    num_rolls: 3,
+    start_lock: Array(NUM_DICE).fill(false),
+  }
+
   constructor(props) {
     super(props);
-    this.state = {
-      dice: START_DICE,
-      locked: START_LOCK,
-      rollsLeft: NUM_ROLLS - 1,
-      scores: START_SCORES
-    };
+    this.state = this.initialGameState();
+
     this.roll = this.roll.bind(this);
     this.doScore = this.doScore.bind(this);
     this.toggleLocked = this.toggleLocked.bind(this);
     this.resetGame = this.resetGame.bind(this);
+  }
+
+  setStartDice(){
+    return Array.from({ length: NUM_DICE }, x => Math.ceil(Math.random() * 6) );
+  }
+
+  initialGameState(){
+    return {
+      dice: this.setStartDice(),
+      locked: this.props.start_lock,
+      rollsLeft: this.props.num_rolls - 1,
+      scores: START_SCORES
+    }
   }
 
   roll(evt) {
@@ -71,7 +85,7 @@ class Game extends Component {
     if(this.state.scores[rulename] === undefined){
       this.setState(st => ({
         scores: { ...st.scores, [rulename]: ruleFn(this.state.dice) },
-        rollsLeft: NUM_ROLLS,
+        rollsLeft: this.props.num_rolls,
         locked: Array(NUM_DICE).fill(false),
       }));
       this.roll();
@@ -79,14 +93,26 @@ class Game extends Component {
   }
 
   resetGame(){
-    // if (game is over){
-      this.setState({ dice: START_DICE,
-                      locked: START_LOCK,
-                      rollsLeft: NUM_ROLLS - 1,
-                      scores: START_SCORES
-                    })
-    // }
+      this.setState(this.initialGameState())
+  }
 
+  renderGameOver() {
+    return  <div>
+              <div> GAME OVER!! </div>
+              <button onClick={this.resetGame}> Restart the Game! </button>
+            </div>
+  }
+
+  renderDice() {
+    return  <div>
+              <Dice dice={this.state.dice} locked={this.state.locked} handleClick={this.toggleLocked} />
+              <button
+                className="Game-reroll"
+                disabled={this.state.locked.every(x => x)}
+                onClick={this.roll}>
+                {this.state.rollsLeft} Rerolls Left
+              </button> 
+            </div>
   }
 
   render() {
@@ -94,21 +120,7 @@ class Game extends Component {
     return (
       <section>
         { Object.values(this.state.scores).includes(undefined)
-         ?
-         <div>
-          <Dice dice={this.state.dice} locked={this.state.locked} handleClick={this.toggleLocked} />
-          <button
-            className="Game-reroll"
-            disabled={this.state.locked.every(x => x)}
-            onClick={this.roll}>
-            {this.state.rollsLeft} Rerolls Left
-          </button> 
-          </div>
-          :
-          <div>
-            <div> GAME OVER!! </div>
-            <button onClick={this.resetGame}> Restart the Game! </button>
-          </div>
+          ? this.renderDice() : this.renderGameOver()
           }
         <ScoreTable doScore={this.doScore} scores={this.state.scores} />
       </section >
